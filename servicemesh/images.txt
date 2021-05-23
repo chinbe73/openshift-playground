@@ -1,0 +1,1 @@
+registry.redhat.io/openshift-service-mesh/istio-rhel8-operator@sha256:00e9dc96b46596c8a0da521cb32042dbf06a1c5e8bcc1988dee37ba17e5d964f

@@ -1,0 +1,579 @@
+apiVersion: v1
+items:
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2020-05-03T19:37:37Z"
+    generation: 1
+    labels:
+      olm.owner: elasticsearch-operator.4.2.29-202004140532
+      olm.owner.kind: ClusterServiceVersion
+      olm.owner.namespace: openshift-operators
+    name: elasticsearch-operator
+    namespace: openshift-operators
+    ownerReferences:
+    - apiVersion: operators.coreos.com/v1alpha1
+      blockOwnerDeletion: false
+      controller: false
+      kind: ClusterServiceVersion
+      name: elasticsearch-operator.4.2.29-202004140532
+      uid: 846951a2-8d75-11ea-97ff-0242ac11000b
+    resourceVersion: "247019"
+    selfLink: /apis/extensions/v1beta1/namespaces/openshift-operators/deployments/elasticsearch-operator
+    uid: 8b8789ab-8d75-11ea-97ff-0242ac11000b
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        name: elasticsearch-operator
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          alm-examples: |-
+            [
+                {
+                    "apiVersion": "logging.openshift.io/v1",
+                    "kind": "Elasticsearch",
+                    "metadata": {
+                      "name": "elasticsearch"
+                    },
+                    "spec": {
+                      "managementState": "Managed",
+                      "nodeSpec": {
+                        "image": "registry.redhat.io/openshift4/ose-logging-elasticsearch5@sha256:e4cca1134b7213c8877ac6522fcad172e0f47eea799020eed25b90dc928af28e",
+                        "resources": {
+                          "limits": {
+                            "memory": "1Gi"
+                          },
+                          "requests": {
+                            "memory": "512Mi"
+                          }
+                        }
+                      },
+                      "redundancyPolicy": "SingleRedundancy",
+                      "nodes": [
+                        {
+                            "nodeCount": 1,
+                            "roles": ["client","data","master"]
+                        }
+                      ]
+                    }
+                }
+            ]
+          capabilities: Seamless Upgrades
+          categories: OpenShift Optional, Logging & Tracing
+          certified: "false"
+          containerImage: registry.redhat.io/openshift4/ose-elasticsearch-operator@sha256:06cc3bb287740360e4c0071dab8ea4254baa02a67205424241cfbfe8b2b8f375
+          createdAt: "2019-02-20T08:00:00Z"
+          description: |-
+            The Elasticsearch Operator for OKD provides a means for configuring and managing an Elasticsearch cluster for tracing and cluster logging.
+            ## Prerequisites and Requirements
+            ### Elasticsearch Operator Namespace
+            The Elasticsearch Operator must be deployed to the global operator group namespace
+            ### Memory Considerations
+            Elasticsearch is a memory intensive application.  The initial
+            set of OKD nodes may not be large enough to support the Elasticsearch cluster.  Additional OKD nodes must be added
+            to the OKD cluster if you desire to run with the recommended (or better) memory. Each ES node can operate with a
+            lower memory setting though this is not recommended for production deployments.
+          olm.operatorGroup: global-operators
+          olm.operatorNamespace: openshift-operators
+          olm.skipRange: '>=4.1.0 <4.2.29-202004140532'
+          olm.targetNamespaces: ""
+          support: AOS Cluster Logging, Jaeger
+        creationTimestamp: null
+        labels:
+          name: elasticsearch-operator
+      spec:
+        containers:
+        - command:
+          - elasticsearch-operator
+          env:
+          - name: WATCH_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.annotations['olm.targetNamespaces']
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.name
+          - name: OPERATOR_NAME
+            value: elasticsearch-operator
+          - name: PROXY_IMAGE
+            value: registry.redhat.io/openshift4/ose-oauth-proxy@sha256:dc0fcd9252214037a45f15bdfdd703f47fd95e8f98895552bb6e7b2d205081c5
+          - name: ELASTICSEARCH_IMAGE
+            value: registry.redhat.io/openshift4/ose-logging-elasticsearch5@sha256:e4cca1134b7213c8877ac6522fcad172e0f47eea799020eed25b90dc928af28e
+          image: registry.redhat.io/openshift4/ose-elasticsearch-operator@sha256:06cc3bb287740360e4c0071dab8ea4254baa02a67205424241cfbfe8b2b8f375
+          imagePullPolicy: IfNotPresent
+          name: elasticsearch-operator
+          ports:
+          - containerPort: 60000
+            name: metrics
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: elasticsearch-operator
+        serviceAccountName: elasticsearch-operator
+        terminationGracePeriodSeconds: 30
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2020-05-03T19:34:07Z"
+    generation: 1
+    labels:
+      olm.owner: servicemeshoperator.v1.1.1
+      olm.owner.kind: ClusterServiceVersion
+      olm.owner.namespace: openshift-operators
+    name: istio-operator
+    namespace: openshift-operators
+    ownerReferences:
+    - apiVersion: operators.coreos.com/v1alpha1
+      blockOwnerDeletion: false
+      controller: false
+      kind: ClusterServiceVersion
+      name: servicemeshoperator.v1.1.1
+      uid: 078bb2b1-8d75-11ea-97ff-0242ac11000b
+    resourceVersion: "245488"
+    selfLink: /apis/extensions/v1beta1/namespaces/openshift-operators/deployments/istio-operator
+    uid: 0e1f9054-8d75-11ea-97ff-0242ac11000b
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        name: istio-operator
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          alm-examples: "[\n  {\n    \"apiVersion\": \"maistra.io/v1\",\n    \"kind\":
+            \"ServiceMeshControlPlane\",\n    \"metadata\": {\n      \"name\": \"basic-install\",\n
+            \     \"namespace\": \"control-plane-namespace\"\n    },\n    \"spec\":
+            {\n      \"version\": \"v1.1\",\n      \"istio\": {\n        \"gateways\":
+            {\n          \"istio-egressgateway\": {\n            \"autoscaleEnabled\":
+            false\n          },\n          \"istio-ingressgateway\": {\n            \"autoscaleEnabled\":
+            false,\n            \"ior_enabled\": false\n          }\n        },\n
+            \       \"mixer\": {\n          \"policy\": {\n            \"autoscaleEnabled\":
+            false\n          },\n          \"telemetry\": {\n            \"autoscaleEnabled\":
+            false\n          }\n        },\n        \"pilot\": {\n          \"autoscaleEnabled\":
+            false,\n          \"traceSampling\": 100.0\n        },\n        \"kiali\":
+            {\n          \"enabled\": true\n        },\n        \"grafana\": {\n          \"enabled\":
+            true\n        },\n        \"tracing\": {\n          \"enabled\": true,\n
+            \         \"jaeger\": {\n            \"template\": \"all-in-one\"\n          }\n
+            \       }\n      }\n    }\n  },\n  {\n    \"apiVersion\": \"maistra.io/v1\",\n
+            \   \"kind\": \"ServiceMeshMemberRoll\",\n    \"metadata\": {\n      \"name\":
+            \"default\",\n      \"namespace\": \"control-plane-namespace\"\n    },\n
+            \   \"spec\": {\n      \"members\": [\n        \"your-project\",\n        \"another-of-your-projects\"
+            \n      ]\n    }\n  },\n  {\n    \"apiVersion\": \"maistra.io/v1\",\n
+            \   \"kind\": \"ServiceMeshMember\",\n    \"metadata\": {\n      \"name\":
+            \"default\",\n      \"namespace\": \"application-namespace\"\n    },\n
+            \   \"spec\": {\n      \"controlPlaneRef\": {\n        \"name\": \"basic-install\",\n
+            \       \"namespace\": \"control-plane-namespace\"\n      }\n    }\n  }\n]"
+          capabilities: Seamless Upgrades
+          categories: OpenShift Optional, Integration & Delivery
+          certified: "false"
+          containerImage: registry.redhat.io/openshift-service-mesh/istio-rhel8-operator:1.1.1
+          createdAt: 2020-04-27T12:29:22MDT
+          description: The OpenShift Service Mesh Operator enables you to install,
+            configure, and manage an instance of Red Hat OpenShift Service Mesh. OpenShift
+            Service Mesh is based on the open source Istio project.
+          oauth-proxy.name: oauth-proxy
+          oauth-proxy.namespace: openshift
+          oauth-proxy.query: "true"
+          oauth-proxy.tag: v4.4
+          olm.operatorGroup: global-operators
+          olm.operatorNamespace: openshift-operators
+          olm.relatedImage.v1_0.3scale-istio-adapter: registry.redhat.io/openshift-service-mesh/3scale-istio-adapter-rhel8@sha256:00fb544a95b16c652cc571396679c65d5889b2cfe6f1a0176f560a1678309a35
+          olm.relatedImage.v1_0.citadel: registry.redhat.io/openshift-service-mesh/citadel-rhel8@sha256:a49954528575c8480d6763e4793ab65de0f4c19ba5963544d57c91ededd63a90
+          olm.relatedImage.v1_0.cni: registry.redhat.io/openshift-service-mesh/istio-cni-rhel8@sha256:b7b36d109847b11748442358178892d1e19ac121c920efe940f3b8dbc70ee28b
+          olm.relatedImage.v1_0.galley: registry.redhat.io/openshift-service-mesh/galley-rhel8@sha256:620c85bdec44380711c00f189c4042f3a669eba2c089ca6cf9ae8ee5c4358121
+          olm.relatedImage.v1_0.grafana: registry.redhat.io/openshift-service-mesh/grafana-rhel8@sha256:f76e8bbd26c2bd474d55ce6378874fcb736e464aa0737ca22897a7b58b55661f
+          olm.relatedImage.v1_0.mixer: registry.redhat.io/openshift-service-mesh/mixer-rhel8@sha256:ad6ad158e647d11031d4478ed46bbabba83b4f66ba3a8068bd5ec82679511c5f
+          olm.relatedImage.v1_0.pilot: registry.redhat.io/openshift-service-mesh/pilot-rhel8@sha256:ebfc7f79d8c0cec52c6aac1727eee84f15c43a3d0f7b4503ae14d8ee6a8bd025
+          olm.relatedImage.v1_0.prometheus: registry.redhat.io/openshift-service-mesh/prometheus-rhel8@sha256:70960efc418688d96d6e9b1ee8a35905ce221cb08d9e5aefff9616e44b95cd9f
+          olm.relatedImage.v1_0.proxy-init: registry.redhat.io/openshift-service-mesh/proxy-init-rhel7@sha256:7d14fc0fb52b7bf98427e9fb0cefbb3fd269e8a9341c2e17ba9cc347e53f73b8
+          olm.relatedImage.v1_0.proxyv2: registry.redhat.io/openshift-service-mesh/proxyv2-rhel8@sha256:e7813217b71b1004f7fcf5e212bf4f13ae7148f498860fb8b1e521a0147580ad
+          olm.relatedImage.v1_0.sidecar-injector: registry.redhat.io/openshift-service-mesh/sidecar-injector-rhel8@sha256:2f2361f4a0216fb3a2563b121ab7218e35af63114811683fc5c8e4889e999652
+          olm.relatedImage.v1_1.3scale-istio-adapter: registry.redhat.io/openshift-service-mesh/3scale-istio-adapter-rhel8@sha256:00fb544a95b16c652cc571396679c65d5889b2cfe6f1a0176f560a1678309a35
+          olm.relatedImage.v1_1.citadel: registry.redhat.io/openshift-service-mesh/citadel-rhel8@sha256:f086c33effa80982191d20ca2dde3856ec8fd434336080d3664fafd2c0b7ba34
+          olm.relatedImage.v1_1.cni: registry.redhat.io/openshift-service-mesh/istio-cni-rhel8@sha256:187adf6108d6f35a9ef6ad2f36b99915641e58f41089efc992aeba3ea5a59930
+          olm.relatedImage.v1_1.galley: registry.redhat.io/openshift-service-mesh/galley-rhel8@sha256:099e233bec27e0653e0eec41f1da296df2065985ae721d7da0c6461ee2e97a4f
+          olm.relatedImage.v1_1.grafana: registry.redhat.io/openshift-service-mesh/grafana-rhel8@sha256:44fb361aae40bef62186df44428cbf8bcabce2d645078313e4fd29cf9cb520ff
+          olm.relatedImage.v1_1.ior: registry.redhat.io/openshift-service-mesh/ior-rhel8@sha256:93f4f298d09bee60c79aa29d58dbb67a3ac2902c06b31a96c389992e989d3146
+          olm.relatedImage.v1_1.mixer: registry.redhat.io/openshift-service-mesh/mixer-rhel8@sha256:060dbd5b792157edd3d4a7e03df3774565e1bf6e49d5fb0dff55c443408177c7
+          olm.relatedImage.v1_1.pilot: registry.redhat.io/openshift-service-mesh/pilot-rhel8@sha256:5ef83ddc7f1f26aa20102dab19a096884ad590efb7972b1ca25481aa7be1160c
+          olm.relatedImage.v1_1.prometheus: registry.redhat.io/openshift-service-mesh/prometheus-rhel8@sha256:38d8ef942e938a8a3501a8f5213bdfd2bf27fcdf5f5bbc6d1ed23483affe1835
+          olm.relatedImage.v1_1.proxy-init: registry.redhat.io/openshift-service-mesh/proxy-init-rhel7@sha256:9e049ae662c966369a907839fc01168860f12e97c30304edf9b141c9e781fcd9
+          olm.relatedImage.v1_1.proxyv2: registry.redhat.io/openshift-service-mesh/proxyv2-rhel8@sha256:c80671c1cc8254336499fe92c9de7b597e2e6b71d8c5420e63e7ce90e422b5ed
+          olm.relatedImage.v1_1.sidecar-injector: registry.redhat.io/openshift-service-mesh/sidecar-injector-rhel8@sha256:70d89f0888dc52dfd97961d62270bd3fcdfe1fa457cc8bbba678832f0d5fc2fd
+          olm.skipRange: '>=1.0.2 <1.1.1'
+          olm.targetNamespaces: ""
+          repository: https://github.com/maistra/istio-operator
+          support: Red Hat, Inc.
+        creationTimestamp: null
+        labels:
+          name: istio-operator
+      spec:
+        containers:
+        - command:
+          - istio-operator
+          - --config
+          - /etc/operator/olm/config.properties
+          env:
+          - name: WATCH_NAMESPACE
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.name
+          - name: OPERATOR_NAME
+            value: istio-operator
+          image: registry.redhat.io/openshift-service-mesh/istio-rhel8-operator@sha256:00e9dc96b46596c8a0da521cb32042dbf06a1c5e8bcc1988dee37ba17e5d964f
+          imagePullPolicy: Always
+          name: istio-operator
+          ports:
+          - containerPort: 11999
+            name: validation
+            protocol: TCP
+          - containerPort: 60000
+            name: metrics
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /etc/operator/olm
+            name: operator-olm-config
+            readOnly: true
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: istio-operator
+        serviceAccountName: istio-operator
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - downwardAPI:
+            defaultMode: 420
+            items:
+            - fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.annotations
+              path: config.properties
+          name: operator-olm-config
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2020-05-03T19:33:59Z"
+    generation: 1
+    labels:
+      olm.owner: jaeger-operator.v1.17.2
+      olm.owner.kind: ClusterServiceVersion
+      olm.owner.namespace: openshift-operators
+    name: jaeger-operator
+    namespace: openshift-operators
+    ownerReferences:
+    - apiVersion: operators.coreos.com/v1alpha1
+      blockOwnerDeletion: false
+      controller: false
+      kind: ClusterServiceVersion
+      name: jaeger-operator.v1.17.2
+      uid: 0529ea7f-8d75-11ea-97ff-0242ac11000b
+    resourceVersion: "245397"
+    selfLink: /apis/extensions/v1beta1/namespaces/openshift-operators/deployments/jaeger-operator
+    uid: 091e19a6-8d75-11ea-97ff-0242ac11000b
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        name: jaeger-operator
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          alm-examples: |-
+            [
+              {
+                "apiVersion": "jaegertracing.io/v1",
+                "kind": "Jaeger",
+                "metadata": {
+                  "name": "jaeger-all-in-one-inmemory"
+                }
+              }
+            ]
+          capabilities: Deep Insights
+          categories: Logging & Tracing
+          certified: "false"
+          containerImage: registry.redhat.io/distributed-tracing/jaeger-rhel7-operator:1.17.2-3
+          createdAt: "2020-04-20T00:00:00+00:00"
+          description: Provides tracing, monitoring and troubleshooting for microservices-based
+            distributed systems
+          olm.operatorGroup: global-operators
+          olm.operatorNamespace: openshift-operators
+          olm.skipRange: '>=1.13.0 <1.17.2'
+          olm.targetNamespaces: ""
+          repository: N/A
+          support: Red Hat
+        creationTimestamp: null
+        labels:
+          name: jaeger-operator
+      spec:
+        containers:
+        - args:
+          - start
+          - --jaeger-agent-image=registry.redhat.io/distributed-tracing/jaeger-agent-rhel7@sha256:6ad21491d876ddc6f0625169a3ba4526214906b28e6e051061016d8c63878a60
+          - --jaeger-query-image=registry.redhat.io/distributed-tracing/jaeger-query-rhel7@sha256:e08ea8bc2410964f4fbecd239d3270628fe42ba2e5def5ab6927beec2e79addc
+          - --jaeger-collector-image=registry.redhat.io/distributed-tracing/jaeger-collector-rhel7@sha256:5f07ffb1dc5e91e2bd7b196ad83ba75c8fe9dcf033625e8da6f682da33956257
+          - --jaeger-ingester-image=registry.redhat.io/distributed-tracing/jaeger-ingester-rhel7@sha256:9e9ef992dfe2b432cd3a603c1fcce5e9f490bc6d39abc832dc65070a86bdc56e
+          - --jaeger-all-in-one-image=registry.redhat.io/distributed-tracing/jaeger-all-in-one-rhel7@sha256:393f42201ebd2239d679dcd639ab1b8d5accf8d68c541979dc7e7f51f9c7dcf8
+          - --jaeger-es-index-cleaner-image=registry.redhat.io/distributed-tracing/jaeger-es-index-cleaner-rhel7@sha256:09cb783968fc1dab66e8a2e788105b3b2ac0d1ef2ae9c8fc763b149ce8b332f2
+          - --jaeger-es-rollover-image=registry.redhat.io/distributed-tracing/jaeger-es-rollover-rhel7@sha256:7c1400ebcd3de94cc937ae337924f95aad45de9739e721c4c61db1f62279636f
+          - --openshift-oauth-proxy-image=registry.redhat.io/openshift4/ose-oauth-proxy:latest
+          - --openshift-oauth-proxy-imagestream-ns=openshift
+          - --openshift-oauth-proxy-imagestream-name=oauth-proxy
+          - --documentation-url=https://access.redhat.com/documentation/en-us/openshift_container_platform/4.3/html/jaeger/index
+          env:
+          - name: WATCH_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.annotations['olm.targetNamespaces']
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.name
+          - name: POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          - name: OPERATOR_NAME
+            value: jaeger-operator
+          image: registry.redhat.io/distributed-tracing/jaeger-rhel7-operator@sha256:510ef9b390e25e12ce53cf26fb5405fddec24c9258c611982507a4164f5cd44b
+          imagePullPolicy: Always
+          name: jaeger-operator
+          ports:
+          - containerPort: 8383
+            name: metrics
+            protocol: TCP
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: jaeger-operator
+        serviceAccountName: jaeger-operator
+        terminationGracePeriodSeconds: 30
+- apiVersion: extensions/v1beta1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "1"
+    creationTimestamp: "2020-05-03T19:34:03Z"
+    generation: 1
+    labels:
+      olm.owner: kiali-operator.v1.12.11
+      olm.owner.kind: ClusterServiceVersion
+      olm.owner.namespace: openshift-operators
+    name: kiali-operator
+    namespace: openshift-operators
+    ownerReferences:
+    - apiVersion: operators.coreos.com/v1alpha1
+      blockOwnerDeletion: false
+      controller: false
+      kind: ClusterServiceVersion
+      name: kiali-operator.v1.12.11
+      uid: 06d4873e-8d75-11ea-97ff-0242ac11000b
+    resourceVersion: "245444"
+    selfLink: /apis/extensions/v1beta1/namespaces/openshift-operators/deployments/kiali-operator
+    uid: 0bdada22-8d75-11ea-97ff-0242ac11000b
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: kiali-operator
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          alm-examples: |-
+            [
+              {
+                "apiVersion": "kiali.io/v1alpha1",
+                "kind": "Kiali",
+                "metadata": {
+                  "name": "kiali"
+                },
+                "spec": {
+                  "installation_tag": "My Kiali",
+                  "istio_namespace": "istio-system",
+                  "deployment": {
+                    "namespace": "istio-system",
+                    "verbose_mode": "4",
+                    "view_only_mode": false
+                  },
+                  "external_services": {
+                    "grafana": {
+                      "url": ""
+                    },
+                    "prometheus": {
+                      "url": ""
+                    },
+                    "tracing": {
+                      "url": ""
+                    }
+                  },
+                  "server": {
+                    "web_root": "/mykiali"
+                  }
+                }
+              },
+              {
+                "apiVersion": "monitoring.kiali.io/v1alpha1",
+                "kind": "MonitoringDashboard",
+                "metadata": {
+                  "name": "myappdashboard"
+                },
+                "spec": {
+                  "title": "My App Dashboard",
+                  "items": [
+                    {
+                      "chart": {
+                        "name": "My App Processing Duration",
+                        "unit": "seconds",
+                        "spans": 6,
+                        "metricName": "my_app_duration_seconds",
+                        "dataType": "histogram",
+                        "aggregations": [
+                          {
+                            "label": "id",
+                            "displayName": "ID"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          capabilities: Seamless Upgrades
+          categories: Monitoring,Logging & Tracing
+          certified: "false"
+          containerImage: registry.redhat.io/openshift-service-mesh/kiali-rhel7-operator:1.12.11
+          createdAt: "2020-04-27T22:07:13Z"
+          description: 'Kiali project provides answers to the questions: What microservices
+            are part of my Istio service mesh and how are they connected?'
+          olm.operatorGroup: global-operators
+          olm.operatorNamespace: openshift-operators
+          olm.targetNamespaces: ""
+          prometheus.io/port: "8383"
+          prometheus.io/scrape: "true"
+          repository: https://github.com/kiali/kiali
+          support: Red Hat
+        creationTimestamp: null
+        labels:
+          app: kiali-operator
+          version: v1.12.11
+        name: kiali-operator
+      spec:
+        containers:
+        - command:
+          - /usr/local/bin/ao-logs
+          - /tmp/ansible-operator/runner
+          - stdout
+          image: registry.redhat.io/openshift-service-mesh/kiali-rhel7-operator@sha256:1ab53b817097f63182115bea016e55cb3773a0fcc0ec73fe53549d29edc8c172
+          imagePullPolicy: IfNotPresent
+          name: ansible
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /tmp/ansible-operator/runner
+            name: runner
+            readOnly: true
+        - env:
+          - name: WATCH_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.annotations['olm.targetNamespaces']
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.name
+          - name: POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                apiVersion: v1
+                fieldPath: metadata.namespace
+          - name: OPERATOR_NAME
+            value: kiali-operator
+          - name: KIALI_IMAGE_default
+            value: registry.redhat.io/openshift-service-mesh/kiali-rhel7@sha256:76667b3532df11a511b03c4efa165723cff48aa5fb2e56a2ceb693c02a6bce7a
+          - name: KIALI_IMAGE_v1_0
+            value: registry.redhat.io/openshift-service-mesh/kiali-rhel7@sha256:76667b3532df11a511b03c4efa165723cff48aa5fb2e56a2ceb693c02a6bce7a
+          - name: KIALI_IMAGE_v1_12
+            value: registry.redhat.io/openshift-service-mesh/kiali-rhel7@sha256:e1fb3df10a7f7862e8549ad29e4dad97b22719896c10fe5109cbfb3b98f56900
+          image: registry.redhat.io/openshift-service-mesh/kiali-rhel7-operator@sha256:1ab53b817097f63182115bea016e55cb3773a0fcc0ec73fe53549d29edc8c172
+          imagePullPolicy: IfNotPresent
+          name: operator
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          volumeMounts:
+          - mountPath: /tmp/ansible-operator/runner
+            name: runner
+        dnsPolicy: ClusterFirst
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        serviceAccount: kiali-operator
+        serviceAccountName: kiali-operator
+        terminationGracePeriodSeconds: 30
+        volumes:
+        - emptyDir: {}
+          name: runner
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""
